@@ -1,0 +1,14 @@
+.header-box .header .menu li .drop-child-menu .item {
+  line-height: 40px;
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+}
+.header-box .header .menu li .drop-child-menu .item .react-nav-link {
+  text-decoration: none;
+  color: #000;
+  margin-left: 0;
+}
+.header-box .header .menu li .drop-child-menu .item:hover {
+  background-color: #FFF;
+}
+
