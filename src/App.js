@@ -11,52 +11,11 @@ import RoomDetail from './pages/RoomDetail/RoomDetail';
 import { BlogList } from './pages/BlogList/BlogList';
 import { useState, useEffect } from 'react';
 
-
-// firebase import
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from './Firebase';
-import { addDoc } from "firebase/firestore";
+import AddData from './pages/Admin/AddData';
 
 
 
 function App() {
-
-
-  //test firebase
-
-  const [todos, setTodos] = useState([]);
-
-  const fetchPost = async () => {
-
-    await getDocs(collection(db, "Rooms"))
-      .then((querySnapshot) => {
-        const newData = querySnapshot.docs
-          .map((doc) => ({ ...doc.data(), id: doc.id }));
-        setTodos(newData);
-        console.log(todos, newData);
-      })
-
-  }
-
-  useEffect(() => {
-    fetchPost();
-  }, [])
-
-
-  const addTodo = async (e) => {
-    e.preventDefault();  
-   
-    try {
-        const docRef = await addDoc(collection(db, "Rooms"), {
-          roomType: 'many type',   
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-}
-
-  //end test firebase
 
 
 
@@ -64,23 +23,6 @@ function App() {
 
     <div className="App">
       <Navigation></Navigation>
-
-    {/* test firebase */}
-      <h1>TEST FIREBASE</h1>
-
-      <div className="todo-content">
-        {
-          todos?.map((todo, i) => (
-            <p key={i}>
-              {todo.roomType}
-            </p>
-          ))
-        }
-
-        <button onClick={addTodo}>test ADD firebase data</button>
-      </div>
-
-      {/* test fire base */}
 
       <Routes>
         <Route path='/' element={<Home></Home>}>
@@ -99,6 +41,9 @@ function App() {
         </Route>
 
         <Route path='/bloglist' element={<BlogList></BlogList>}>
+        </Route>
+
+        <Route path='/edit' element={<AddData></AddData>}>
         </Route>
 
         <Route path='*' element={<>

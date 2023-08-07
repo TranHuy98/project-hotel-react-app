@@ -153,9 +153,11 @@ const Navigation = () => {
                                                 </div>
                                             </NavLink>
 
-                                            <div className="col-12 item">
-                                                <a href="#">Mansory</a>
-                                            </div>
+                                            <NavLink to='edit' className='react-nav-NavLink'>
+                                                <div className="col-12 item first">
+                                                    Edit Data
+                                                </div>
+                                            </NavLink>
                                             <div className="col-12 item">
                                                 <a href="#">Cobbles</a>
                                             </div>
