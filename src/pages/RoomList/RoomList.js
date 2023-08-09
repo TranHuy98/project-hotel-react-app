@@ -1,23 +1,34 @@
 import './RoomList.css';
 import React, { useEffect, useState } from 'react';
 import Room from './Room';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../Firebase';
+
 
 const RoomList = () => {
 
-  const [listRoom, setListRoom] = useState([]);
+  const [roomList, setRoomList] = useState([]);
+
   const [pageCurrent, setPageCurrent] = useState(1);
 
-  useEffect(() => {
-    fetch(
-      `https://64b1564e062767bc48260e8d.mockapi.io/api/v1/rooms?page=${pageCurrent}&limit=6`
-    )
-      .then((response) => {
-        return response.json();
+  const fetchPost = async () => {
+
+    await getDocs(collection(db, "Rooms"))
+      .then((querySnapshot) => {
+        const roomData = querySnapshot.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }));
+        setRoomList(roomData);
       })
-      .then((data) => {
-        setListRoom(data);
-      });
+
+  }
+
+  useEffect(() => {
+    fetchPost();
+    console.log('render');
+    console.log(roomList);
   }, [pageCurrent]);
+
+  console.log(roomList);
 
   return (
     <>
@@ -44,17 +55,17 @@ const RoomList = () => {
           <div className="row">
             <div className="container">
               <div className="row">
-                {listRoom.map((room, index) => {
+                {roomList.slice((pageCurrent - 1) * 4, pageCurrent * 4).map((room, index) => {
                   return (
                     <Room
                       image={room.image}
                       roomID={room.id}
-                      type={room.type}
-                      price={room.price}
+                      type={room.roomType}
+                      price={room.roomPrice}
                       bed={room.bed}
                       maxPeople={room.maxPeople}
                       view={room.view}
-                      size={room.size}
+                      size={room.roomSize}
                     >
 
                     </Room>

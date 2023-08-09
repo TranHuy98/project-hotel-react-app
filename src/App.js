@@ -12,6 +12,7 @@ import { BlogList } from './pages/BlogList/BlogList';
 import { useState, useEffect } from 'react';
 
 import AddData from './pages/Admin/AddData';
+import AddImage from './pages/Admin/AddImage';
 
 
 
@@ -44,6 +45,9 @@ function App() {
         </Route>
 
         <Route path='/edit' element={<AddData></AddData>}>
+        </Route>
+
+        <Route path='/editimage' element={<AddImage></AddImage>}>
         </Route>
 
         <Route path='*' element={<>

@@ -2,26 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Firebase';
-import { addDoc } from "firebase/firestore";
+import { addDoc, setDoc } from "firebase/firestore";
 
 const AddData = () => {
 
-    //test firebase
+    //get data from firebase
 
-    const [newData, setNewData] = useState({});
-
-    const handleChangeInput = (event) => {
-        console.log(event.target.value);
-        setNewData({
-            roomType: event.target.value,
-        })
-    }
-
-    // const handleAddData = () => {
-
-    // }
-
-    const [todos, setTodos] = useState([]);
+    const [rooms, setRooms] = useState([]);
 
     const fetchPost = async () => {
 
@@ -29,8 +16,8 @@ const AddData = () => {
             .then((querySnapshot) => {
                 const newData = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }));
-                setTodos(newData);
-                console.log(todos, newData);
+                setRooms(newData);
+                console.log(rooms, newData);
             })
 
     }
@@ -39,13 +26,29 @@ const AddData = () => {
         fetchPost();
     }, [])
 
+    //completed get rooms data from firebase
 
-    const addTodo = async (e) => {
+    const [newRoom, setNewRoom] = useState({});
+
+    const handleChangeInput = (event) => {
+        console.log(event.target.value);
+        setNewRoom({
+            roomType: event.target.value,
+        })
+    }
+
+    const deleteRoom = (e) => {
+        console.log('deleta a room');
+        console.log(e.target.vlue)
+    }
+
+
+    const addRoom = async (e) => {
         e.preventDefault();
 
         try {
             const docRef = await addDoc(collection(db, "Rooms"), {
-                ...newData
+                ...newRoom
             });
             console.log("Document written with ID: ", docRef.id);
         } catch (e) {
@@ -53,19 +56,28 @@ const AddData = () => {
         }
     }
 
-    //end test firebase
+    
+
+
+
+    console.log("room-list", rooms);
 
     return (
         <>
             <div>
                 {
-                    todos?.map((todo, i) => (
-                        <p key={i}>
-                            {todo.roomType}
-                        </p>
+                    rooms?.map((room, i) => (
+                        <>
+                            <div style={{ margin: '15px 0 0' }}>
+                                <span key={i}>
+                                    {room.roomType}
+                                </span>
+                                <button onClick={deleteRoom}>Delete</button>
+                            </div>
+                        </>
                     ))
                 }
-                <input type='text' onChange={handleChangeInput}></input> <button onClick={addTodo}>ADD</button>
+                <input type='text' onChange={handleChangeInput}></input> <button onClick={addRoom}>ADD</button>
             </div>
         </>
     )

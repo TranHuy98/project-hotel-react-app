@@ -20,7 +20,7 @@ $(document).ready(function(){
    });
 });
 
-//header scroll fixed
+// header scroll fixed
 $(document).ready(function(){
   $(window).scroll(function(){
     var pos = $('html,body').scrollTop();

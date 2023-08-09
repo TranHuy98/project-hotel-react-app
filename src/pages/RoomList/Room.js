@@ -44,7 +44,7 @@ const Room = (room) => {
                             <span>
                                 <i className="fa fa-angle-right" />
                             </span>{" "}
-                            Room size: {size}sqm
+                            Room size: {size}m<sup>2</sup>
                         </p>
 
                         <Link to={`roomDT/${roomID}`} className='room-item-link'>Check Detail</Link>

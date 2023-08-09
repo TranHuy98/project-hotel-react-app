@@ -2,28 +2,46 @@ import './RoomDetail.css';
 
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../Firebase';
+
 
 const RoomDetail = () => {
+
+    const [roomList, setRoomList] = useState([]);
 
     const [roomDetail, setRoomDetail] = useState({});
 
     const { roomID } = useParams();
 
-    //render
+    console.log(roomID);
+
+    const fetchPost = async () => {
+
+        await getDocs(collection(db, "Rooms"))
+            .then((querySnapshot) => {
+                const roomData = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }));
+                setRoomList(roomData);
+            })
+
+    }
 
     useEffect(() => {
-        fetch(`https://64b1564e062767bc48260e8d.mockapi.io/api/v1/rooms/${roomID}`)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                console.log("data", data);
-                setRoomDetail(data);
+        fetchPost();
 
-                console.log('roomDetail', roomDetail);
-            });
+        console.log("roomlist", roomList);
+        
+        for (let room of roomList) {
+            if (room.id == roomID) {
+                console.log(room.id)
+                setRoomDetail(room);
+            }
+        }
     }, []);
 
+    console.log(roomList);
+    console.log(roomDetail);
 
     //comments
 
@@ -70,7 +88,7 @@ const RoomDetail = () => {
                 {/* page title */}
                 <div className="page-title container-fluid">
                     <div className="container" style={{ position: "relative" }}>
-                        <p className="title">Standard Room</p>
+                        <p className="title">{roomDetail.roomType}</p>
                         <p className="page-tree">
                             <span className="home">
                                 <a href="index.html">Home</a>
@@ -78,11 +96,11 @@ const RoomDetail = () => {
                             <span>
                                 <i className="fa fa-angle-right" />
                             </span>
-                            <span>Single</span>
+                            <span>Rooms</span>
                             <span>
                                 <i className="fa fa-angle-right" />
                             </span>
-                            <span>Standard Room</span>
+                            <span>{roomDetail.roomType}</span>
                         </p>
                     </div>
                 </div>
@@ -112,13 +130,13 @@ const RoomDetail = () => {
                                         </div>
                                         <div className="overview left-item">
                                             <p className="room-type">
-                                                {roomDetail.type}</p>
+                                                {roomDetail.roomType}</p>
 
                                             {/* <p>room image: {roomDetail.image}</p> */}
 
 
                                             <p className="price">
-                                                Start from <span>${roomDetail.price}</span> /night
+                                                Start from <span>${roomDetail.roomPrice}</span> /night
                                             </p>
                                         </div>
                                         <div className="criteria left-item">
@@ -131,7 +149,7 @@ const RoomDetail = () => {
                                                         <i className="far fa-check-square" /> Max Guests: {roomDetail.maxPeople}
                                                     </p>
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Room Size: {roomDetail.size}
+                                                        <i className="far fa-check-square" /> Room Size: {roomDetail.roomSize} m<sup>2</sup>
                                                     </p>
                                                     <p className="item">
                                                         <i className="far fa-check-square" /> Room Faces: {roomDetail.view}

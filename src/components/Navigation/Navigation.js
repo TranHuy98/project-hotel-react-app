@@ -53,56 +53,6 @@ const Navigation = () => {
                                             Home
                                         </NavLink>
                                     </li>
-                                    {/* <li>
-                                        <a href="#" className="title">
-                                            Feature
-                                        </a>
-                                        <div className="drop-menu">
-                                            <div className="col-12 item first">
-                                                <a href="#">
-                                                    Pages
-                                                    <span>
-                                                        <i className="fa fa-angle-right" />
-                                                    </span>
-                                                </a>
-                                                <div className="drop-child-menu each">
-
-                                                    <NavLink to='/about'>
-                                                        <div className="col-12 item">
-
-                                                            About
-
-                                                        </div>
-                                                    </NavLink>
-
-                                                    <div className="col-12 item">
-                                                        <a href="our-team.html">Team</a>
-                                                    </div>
-                                                    <div className="col-12 item">
-                                                        <a href="#">Members</a>
-                                                    </div>
-                                                    <div className="col-12 item">
-                                                        <a href="contact.html">Contact</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-12 item">
-                                                <a href="#">Typography</a>
-                                            </div>
-                                            <div className="col-12 item">
-                                                <a href="#">Shortcode</a>
-                                            </div>
-                                            <div className="col-12 item">
-                                                <a href="#">Video Tutorials</a>
-                                            </div>
-                                            <div className="col-12 item">
-                                                <a href="#">Supports</a>
-                                            </div>
-                                            <div className="col-12 item">
-                                                <a href="#">404</a>
-                                            </div>
-                                        </div>
-                                    </li> */}
                                     <li>
 
                                         <NavLink to='/roomlist' className='title'>
@@ -110,63 +60,24 @@ const Navigation = () => {
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <a href="#" className="title">
-                                            Blog
-                                        </a>
-                                        <div className="drop-menu">
-                                            <NavLink to='/bloglist'>
-                                                <div className="col-12 item">
-
-                                                    Posts
-
-                                                </div>
-                                            </NavLink>
-
-                                            <div className="col-12 item">
-                                                <a href="#">
-                                                    Portfolio
-                                                    <span>
-                                                        <i className="fa fa-angle-right" />
-                                                    </span>
-                                                </a>
-                                                <div className="drop-child-menu each">
-                                                    <div className="col-12 item">
-                                                        <a href="#">Portfolio 1</a>
-                                                    </div>
-                                                    <div className="col-12 item">
-                                                        <a href="check-article.html">Portfolio 2</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                        <NavLink to='/bloglist' className='title'>
+                                            Blogs
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <a href="#" className="title">
+                                        <NavLink to='/gallery' className='title'>
                                             Gallery
-                                        </a>
-                                        <div className="drop-menu">
-
-                                            <NavLink to='gallery' className='react-nav-NavLink'>
-                                                <div className="col-12 item first">
-                                                    Grids
-                                                </div>
-                                            </NavLink>
-
-                                            <NavLink to='edit' className='react-nav-NavLink'>
-                                                <div className="col-12 item first">
-                                                    Edit Data
-                                                </div>
-                                            </NavLink>
-                                            <div className="col-12 item">
-                                                <a href="#">Cobbles</a>
-                                            </div>
-                                        </div>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <a href="#" className="title">
-                                            Shop
-                                        </a>
+                                        <NavLink to='/edit' className='title'>
+                                            Edit Data
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to='/editimage' className='title'>
+                                            Edit Image
+                                        </NavLink>
                                     </li>
                                 </div>
                                 {/* res header button */}
