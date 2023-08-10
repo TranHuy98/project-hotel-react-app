@@ -13,25 +13,31 @@ import {
     listAll,
     list,
 } from "firebase/firestore";
-
-import { storage } from '../../Firebase';
+import firebase from "firebase/compat/app";
 import { v4 as uuidv4 } from 'uuid';
 
 const AddData = () => {
 
     //get data from firebase
 
+    const [selectedImage, setSelectedImage] = useState(null);
+
     const [newRoomType, setNewRoomType] = useState("");
     const [newPrice, setNewPrice] = useState(0);
-    const [newBed, setNewBed] = useState('');
+    const [newBed, setNewBed] = useState("");
     const [newMaxPeople, setNewMaxPeople] = useState(0);
     const [newView, setNewView] = useState("");
-    const [newSize, setNewSize] = useState('');
+    const [newSize, setNewSize] = useState("");
+    const [roomImg, setRoomImg] = useState("");
 
     const [hasChange, setHasChange] = useState(false);
 
     const [rooms, setRooms] = useState([]);
     const roomsCollectionRef = collection(db, "Rooms");
+
+    const handleFileChange = (e) => {
+        setSelectedImage(e.target.files[0]);
+    };
 
     const createRoom = async () => {
         await addDoc(roomsCollectionRef, {
@@ -41,12 +47,15 @@ const AddData = () => {
             maxPeople: newMaxPeople,
             view: newView,
             roomSize: newSize,
+            image: roomImg,
         });
         setHasChange(true);
         let roomField = document.getElementsByClassName('room-field');
-        for(let field of roomField){
+        for (let field of roomField) {
             field.value = '';
         }
+        document.getElementById('roomImg').value = null;
+        
     };
 
     const updateRoom = async (id) => {
@@ -58,6 +67,7 @@ const AddData = () => {
             maxPeople: newMaxPeople,
             view: newView,
             roomSize: newSize,
+            image: roomImg,
         };
         await updateDoc(userDoc, newFields);
         setHasChange(true);
@@ -69,6 +79,33 @@ const AddData = () => {
         setHasChange(true);
     };
 
+    const handleUpload = () => {
+        if (selectedImage) {
+          const storageRef = firebase.storage().ref("RoomImages");
+          const imageRef = storageRef.child(selectedImage.name);
+          imageRef
+            .put(selectedImage)
+            .then(() => {
+              console.log('Image uploaded successfully');
+              // Retrieve the download URL
+              return imageRef.getDownloadURL();
+            })
+            .then((url) => {
+              console.log('Download URL:', url);
+              // Save the download URL to Firestore
+            //   saveImageUrlToFirestore(url);
+              setRoomImg(url);
+              console.log("URL for image", url); // observe the updated value directly
+              alert('upload sucessfully');
+            })
+            .catch((error) => {
+              console.error('Error uploading image:', error);
+            });
+        }
+        // alert('chua chon anh')
+      };
+
+      console.log(roomImg);
 
     //render
     useEffect(() => {
@@ -85,6 +122,11 @@ const AddData = () => {
 
     return (
         <div>
+            <div>
+                <input id='roomImg' type="file" onChange={handleFileChange} />
+                <button onClick={handleUpload}>Upload</button>
+                <p id='upload-alert'></p>
+            </div>
             <input className='room-field'
 
                 placeholder="RoomType..."
@@ -127,12 +169,6 @@ const AddData = () => {
                     setNewSize(event.target.value);
                 }}
             />
-            {/* <div>
-                <input type="file" onChange={(event) => {
-                    setImageUpload(event.target.files[0]);
-                }} accept="/image/*" />
-                <button onClick={uploadFile}>Upload to Firebase</button>
-            </div> */}
 
             <button onClick={createRoom}> Create Room</button>
             {rooms.map((roomItem) => {

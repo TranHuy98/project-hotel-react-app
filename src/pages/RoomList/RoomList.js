@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Room from './Room';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Firebase';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Pagination } from 'antd';
-import type { PaginationProps } from 'antd';
 
 
 const RoomList = () => {
@@ -27,14 +26,22 @@ const RoomList = () => {
 
   useEffect(() => {
     fetchPost();
-    console.log('render');
-    console.log(roomList);
   }, [pageCurrent]);
 
 
-  const onChangePage: PaginationProps['onChange'] = (page) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.search) {
+      navigate('?page=1', { replace: true });
+    }
+  }, [location.search, navigate]);
+
+  const onChangePage = (page) => {
     console.log(page);
     setPageCurrent(page);
+    navigate(`?page=${page}`);
   };
 
   const onShowSizeChange = (current, pageSize) => {

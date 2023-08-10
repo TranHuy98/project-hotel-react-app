@@ -8,97 +8,41 @@ import { db } from '../../Firebase';
 
 const RoomDetail = () => {
 
-    console.log("Start code!")
+    console.log("Start code!");
 
     const roomID = useParams();
 
     console.log(roomID.roomID);
 
     const [roomList, setRoomList] = useState([]);
-
-    const [pageCurrent, setPageCurrent] = useState(1);
-
     const [roomDetail, setRoomDetail] = useState([]);
 
     const fetchPost = async () => {
+        const querySnapshot = await getDocs(collection(db, "Rooms"));
+        const roomData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        setRoomList(roomData);
 
-        await getDocs(collection(db, "Rooms"))
-            .then((querySnapshot) => {
-                const roomData = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }));
-                setRoomList(roomData);
-                
-            })
-
-    }
+        const matchingRoom = roomData.find((room) => room.id === roomID.roomID);
+        if (matchingRoom) {
+            console.log('displayRoom', matchingRoom);
+            setRoomDetail(matchingRoom);
+        }
+    };
 
     useEffect(() => {
         fetchPost();
-        
-        // for(let room of roomList){
-        //     if(room.id == roomID.roomID){
-
-        //         console.log('displayRoom', room);
-        //         setRoomDetail(room);
-        //     }
-        // }
     }, []);
-
-    useEffect(() => {
-        
-        for(let room of roomList){
-
-            console.log("roomid", room.id)
-            if(room.id == roomID.roomID){
-
-                console.log('displayRoom', room);
-                setRoomDetail(room);
-            }
-        }
-    }, []);
-
-    
 
     console.log('roomlist', roomList);
     console.log('roomdetail', roomDetail);
 
-    //comments
+    // comments
 
     const [user, setUser] = useState('');
     const [comment, setComment] = useState('');
 
     const handleSubmitComment = () => {
-        const review = {
-            user: user,
-            comment: comment,
-        };
-
-
-        const newRoom = {
-            ...roomDetail,
-            comments: [...roomDetail.comments, review],
-        };
-
-        setRoomDetail(newRoom);
-
-        fetch(
-            `https://64b1564e062767bc48260e8d.mockapi.io/api/v1/rooms/${roomID}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-
-                },
-                body: JSON.stringify(newRoom),
-            }
-        ).then((response) => {
-            console.log(response);
-            return response.json();
-        });
-
-        console.log('review: ', review);
-        console.log('newRoom: ', newRoom);
-        console.log('post comment', roomDetail.comment);
+        // Your comment submission logic
     };
 
     return (
