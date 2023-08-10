@@ -8,13 +8,17 @@ import { db } from '../../Firebase';
 
 const RoomDetail = () => {
 
+    console.log("Start code!")
+
+    const roomID = useParams();
+
+    console.log(roomID.roomID);
+
     const [roomList, setRoomList] = useState([]);
 
-    const [roomDetail, setRoomDetail] = useState({});
+    const [pageCurrent, setPageCurrent] = useState(1);
 
-    const { roomID } = useParams();
-
-    console.log(roomID);
+    const [roomDetail, setRoomDetail] = useState([]);
 
     const fetchPost = async () => {
 
@@ -23,25 +27,40 @@ const RoomDetail = () => {
                 const roomData = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }));
                 setRoomList(roomData);
+                
             })
 
     }
 
     useEffect(() => {
         fetchPost();
-
-        console.log("roomlist", roomList);
         
-        for (let room of roomList) {
-            if (room.id == roomID) {
-                console.log(room.id)
+        // for(let room of roomList){
+        //     if(room.id == roomID.roomID){
+
+        //         console.log('displayRoom', room);
+        //         setRoomDetail(room);
+        //     }
+        // }
+    }, []);
+
+    useEffect(() => {
+        
+        for(let room of roomList){
+
+            console.log("roomid", room.id)
+            if(room.id == roomID.roomID){
+
+                console.log('displayRoom', room);
                 setRoomDetail(room);
             }
         }
     }, []);
 
-    console.log(roomList);
-    console.log(roomDetail);
+    
+
+    console.log('roomlist', roomList);
+    console.log('roomdetail', roomDetail);
 
     //comments
 

@@ -44,7 +44,7 @@ const Navigation = () => {
                         <div className="container">
                             <div className="row forResLogo" style={{ position: "relative" }}>
                                 <a href="index.html">
-                                    <img src="img/logo.webp" />
+                                    <img src="/img/logo.webp" />
                                 </a>
                                 <div className="menu">
                                     <li>

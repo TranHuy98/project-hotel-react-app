@@ -2,78 +2,59 @@ import React from 'react'
 import { useState } from "react";
 import { db } from '../../Firebase';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { v4 as uuidv4 } from 'uuid';
+import firebase from "firebase/compat/app";
+import 'firebase/storage';
+import 'firebase/firestore';
 
 
 const AddImage = () => {
 
-    const [image, setImage] = useState(null)
+    const [selectedImage, setSelectedImage] = useState(null);
 
-    const handleChange = (event) => {
-        if (event.target.files[0]) {
-            setImage(event.target.files[0]);
+    const handleFileChange = (e) => {
+        setSelectedImage(e.target.files[0]);
+    };
 
-            console.log(image);
+    const handleUpload = () => {
+        if (selectedImage) {
+            const storageRef = firebase.storage().ref("RoomImages");
+            const imageRef = storageRef.child(selectedImage.name);
+            imageRef.put(selectedImage)
+                .then(() => {
+                    console.log('Image uploaded successfully');
+                    // Retrieve the download URL
+                    imageRef.getDownloadURL().then((url) => {
+                        console.log('Download URL:', url);
+                        // Save the download URL to Firestore
+                        saveImageUrlToFirestore(url);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error uploading image:', error);
+                });
         }
-    }
+    };
 
-    const storage = getStorage();
-
-
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    const storageRef = ref(storage, 'images/' + image);
-    const uploadTask = uploadBytesResumable(storageRef, image);
-
-    // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on('state_changed',
-        (snapshot) => {
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-            switch (snapshot.state) {
-                case 'paused':
-                    console.log('Upload is paused');
-                    break;
-                case 'running':
-                    console.log('Upload is running');
-                    break;
-            }
-        },
-        (error) => {
-            // A full list of error codes is available at
-            // https://firebase.google.com/docs/storage/web/handle-errors
-            switch (error.code) {
-                case 'storage/unauthorized':
-                    // User doesn't have permission to access the object
-                    break;
-                case 'storage/canceled':
-                    // User canceled the upload
-                    break;
-
-                // ...
-
-                case 'storage/unknown':
-                    // Unknown error occurred, inspect error.serverResponse
-                    break;
-            }
-        },
-        () => {
-            // Upload completed successfully, now we can get the download URL
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                console.log('File available at', downloadURL);
+    const saveImageUrlToFirestore = (url) => {
+        const firestore = firebase.firestore();
+        const collectionRef = firestore.collection('Rooms');
+        const docRef = collectionRef.doc(); // Auto-generate document ID
+        docRef.set({ image: url })
+            .then(() => {
+                console.log('Image URL saved to Firestore:', docRef.id);
+            })
+            .catch((error) => {
+                console.error('Error saving image URL to Firestore:', error);
             });
-        }
-    );
+    };
 
     return (
-        <>
-            <div>
-                <input type="file" onChange={handleChange} accept="/image/*" />
-                <button onClick={uploadTask}>Upload to Firebase</button>
-
-                <p>URL: </p>
-            </div>
-        </>
-    )
+        <div>
+            <input type="file" onChange={handleFileChange} />
+            <button onClick={handleUpload}>Upload</button>
+        </div>
+    );
 }
 
 export default AddImage

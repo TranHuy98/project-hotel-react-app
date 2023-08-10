@@ -27,43 +27,6 @@ const Gallery = () => {
             });
     }, [pageCurrent]);
 
-
-    useEffect(() => {
-
-        // layer
-
-        $('.gallery-grid .item').mouseenter(function () {
-            $(this).find('.info-layer').css('animation-name', 'infoShow');
-        });
-        $('.gallery-grid .item').mouseleave(function () {
-            $(this).find('.info-layer').css('animation-name', 'infoHide');
-        });
-
-
-
-        // button
-        $(document).ready(function () {
-            $('.gallery-grid .item').mouseenter(function () {
-                $(this).find('.layer-item').css('animation-name', 'buttonShow');
-            });
-            $('.gallery-grid .item').mouseleave(function () {
-                $(this).find('.layer-item').css('animation-name', 'buttonHide');
-            });
-        });
-
-
-
-        // close image popup when not click on it
-        $(document).mouseup(function (e) {
-            if (!$('.image-item img').is(e.target) && $('.image-item img').has(e.target).length === 0) {
-                $('.image-show').hide();
-            }
-        });
-
-
-
-    }, []);
-
     const onChangePage: PaginationProps['onChange'] = (page) => {
         console.log(page);
         setPageCurrent(page);
@@ -116,25 +79,10 @@ const Gallery = () => {
                             })}
 
                         </div>
-                        <div className="row">
-                            {/* <div className="col-12 pagination">
-                                <div className="page-block" onClick={() => setPageCurrent(1)}>1</div>
-                                <div className="page-block" onClick={() => setPageCurrent(2)}>2</div>
-                                <div className="page-block" onClick={() => setPageCurrent(3)}>3</div>
-                                <div className="page-block">
-                                    <i className="fa fa-angle-right" />
-                                </div>
-                                <div className="page-block">
-                                    <i className="fa fa-angle-double-right" />
-                                </div>
-                            </div> */}
-
-
-                        </div>
                         <Pagination
                             showSizeChanger={false}
                             onShowSizeChange={onShowSizeChange}
-                            defaultCurrent={3}
+                            defaultCurrent={1}
                             total={30}
                             pageSize={5}
                             showQuickJumper={true}

@@ -4,6 +4,9 @@ import Room from './Room';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Firebase';
 
+import { Pagination } from 'antd';
+import type { PaginationProps } from 'antd';
+
 
 const RoomList = () => {
 
@@ -28,7 +31,15 @@ const RoomList = () => {
     console.log(roomList);
   }, [pageCurrent]);
 
-  console.log(roomList);
+
+  const onChangePage: PaginationProps['onChange'] = (page) => {
+    console.log(page);
+    setPageCurrent(page);
+  };
+
+  const onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize);
+  };
 
   return (
     <>
@@ -66,6 +77,7 @@ const RoomList = () => {
                       maxPeople={room.maxPeople}
                       view={room.view}
                       size={room.roomSize}
+                      key={room.id}
                     >
 
                     </Room>
@@ -73,7 +85,7 @@ const RoomList = () => {
                 })}
 
               </div>
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-12 pagination">
                   <div className="page-block" onClick={() => setPageCurrent(1)}>1</div>
                   <div className="page-block" onClick={() => setPageCurrent(2)}>2</div>
@@ -85,7 +97,18 @@ const RoomList = () => {
                     <i className="fa fa-angle-double-right" />
                   </div>
                 </div>
-              </div>
+              </div> */}
+
+              <Pagination
+                showSizeChanger={false}
+                onShowSizeChange={onShowSizeChange}
+                defaultCurrent={3}
+                total={30}
+                pageSize={5}
+                showQuickJumper={true}
+                current={pageCurrent}
+                onChange={onChangePage}
+              />
             </div>
           </div>
         </div>
