@@ -9,54 +9,51 @@ import Gallery from './pages/Gallery/Gallery';
 import RoomList from './pages/RoomList/RoomList';
 import RoomDetail from './pages/RoomDetail/RoomDetail';
 import { BlogList } from './pages/BlogList/BlogList';
-import { useState, useEffect } from 'react';
-
 import AddData from './pages/Admin/AddData';
-import AddImage from './pages/Admin/AddImage';
-
-
+import Booking from './pages/Booking/Booking';
 
 function App() {
 
-
-
   return (
 
-    <div className="App">
-      <Navigation></Navigation>
+    <>
+        <div className="App">
+          <Navigation></Navigation>
 
-      <Routes>
-        <Route path='/' element={<Home></Home>}>
-        </Route>
+          <Routes>
+            <Route path='/' element={<Home></Home>}>
+            </Route>
 
-        <Route path='/about' element={<About></About>}>
-        </Route>
+            <Route path='/about' element={<About></About>}>
+            </Route>
 
-        <Route path='/gallery' element={<Gallery></Gallery>}>
-        </Route>
+            <Route path='/gallery' element={<Gallery></Gallery>}>
+            </Route>
 
-        <Route path='/roomlist/roomDT/:roomID' element={<RoomDetail></RoomDetail>}>
-        </Route>
+            <Route path='/roomlist/roomDT/:roomID' element={<RoomDetail></RoomDetail>}>
+            </Route>
 
-        <Route path='/roomlist' element={<RoomList></RoomList>}>
-        </Route>
+            <Route path='/roomlist' element={<RoomList></RoomList>}>
+            </Route>
 
-        <Route path='/bloglist' element={<BlogList></BlogList>}>
-        </Route>
+            <Route path='/bloglist' element={<BlogList></BlogList>}>
+            </Route>
 
-        <Route path='/edit' element={<AddData></AddData>}>
-        </Route>
+            <Route path='/booking' element={<Booking></Booking>}>
+            </Route>
 
-        <Route path='/editimage' element={<AddImage></AddImage>}>
-        </Route>
+            <Route path='/edit' element={<AddData></AddData>}>
+            </Route>
 
-        <Route path='*' element={<>
-          <h1>NOT FOUND</h1>
-        </>}></Route>
-      </Routes>
+            <Route path='*' element={<>
+              <h1>NOT FOUND</h1>
+            </>}></Route>
+          </Routes>
 
-      <Footer></Footer>
-    </div>
+          <Footer></Footer>
+        </div>
+
+    </>
 
   );
 }

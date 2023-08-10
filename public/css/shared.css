@@ -623,6 +623,7 @@ body {
   position: relative;
 }
 .banner .banner-slide {
+  margin: 0;
 }
 .banner .banner-item {
   height: 800px;

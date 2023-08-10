@@ -1,123 +1,50 @@
-import React from 'react'
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './Carousel.css';
 
 const Carousel = () => {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+    };
+
     return (
-        <>
-            <>
-                {/* carousel banner */}
-                <div className="container-fluid banner">
-                    <div className="row banner-slide">
-                        <div
-                            className="col-xl-12 col-lg-12 col-md-12 col-xs-12 col-12 banner-item"
-                            style={{ backgroundImage: "url(img/banner-img1.jpg)" }}
-                        >
-                            <div className="title banner-word">
-                                <p>Come and Relax</p>
-                            </div>
-                            <div className="description banner-word">
-                                <p>a paradise for sense, vacation for souls</p>
-                            </div>
-                        </div>
-                        <div
-                            className="col-xl-12 col-lg-12 col-md-12 col-xs-12 col-12 banner-item"
-                            style={{ backgroundImage: "url(img/banner-img2.jpg)" }}
-                        >
-                            <div className="title banner-word">
-                                <p>Celebrate your Love</p>
-                            </div>
-                            <div className="description banner-word">
-                                <p>arrange the wedding to remember forever</p>
-                            </div>
-                        </div>
-                        <div
-                            className="col-xl-12 col-lg-12 col-md-12 col-xs-12 col-12 banner-item"
-                            style={{ backgroundImage: "url(img/banner-img3.jpg)" }}
-                        >
-                            <div className="title banner-word">
-                                <p>Feast for your Taste</p>
-                            </div>
-                            <div className="description banner-word">
-                                <p>enjoy our perfect homemade dishes and BBQ</p>
-                            </div>
-                        </div>
+        <div className='banner'>
+            <Slider {...settings}>
+                <div className="banner-item banner-item1">
+                    <div className="title banner-word">
+                        <p>Come and Relax</p>
                     </div>
-                    <div className="prev-banner-box">
-                        <span>
-                            <i className="fa fa-angle-left" id="prevBanner" />
-                        </span>
-                    </div>
-                    <div className="next-banner-box">
-                        <span>
-                            <i className="fa fa-angle-right" id="nextBanner" />
-                        </span>
-                    </div>
-                    <div className="booking">
-                        <div className="row" style={{ backgroundColor: "#faf9f8" }}>
-                            <div className="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 item">
-                                <p>
-                                    Email<span>*</span>
-                                </p>
-                                <div className="infos">
-                                    <input type="email" name="" className="criteria" />
-                                </div>
-                            </div>
-                            <div className="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 item item-sm">
-                                <p>
-                                    Room Type<span>*</span>
-                                </p>
-                                <div className="infos">
-                                    <select className="criteria">
-                                        <option>Single</option>
-                                        <option>Double</option>
-                                        <option>Kid</option>
-                                        <option>Family</option>
-                                        <option>Deluxe</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 item item-md">
-                                <p>
-                                    Check-in Date<span>*</span>
-                                </p>
-                                <div className="infos">
-                                    <input type="date" name="" className="criteria" />
-                                </div>
-                            </div>
-                            <div className="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 item item-lg">
-                                <p>
-                                    Check-out Date<span>*</span>
-                                </p>
-                                <div className="infos">
-                                    <input type="date" name="" className="criteria" />
-                                </div>
-                            </div>
-                            <div className="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 item item-lg">
-                                <p>
-                                    Guest<span>*</span>
-                                </p>
-                                <div className="infos">
-                                    <input type="text" name="" className="criteria" />
-                                </div>
-                            </div>
-                            <div className="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 item item-lg">
-                                <p style={{ color: "transparent" }}>A</p>
-                                <div className="infos">
-                                    <input
-                                        type="submit"
-                                        name=""
-                                        defaultValue="BOOK NOW"
-                                        className="criteria sub-btn"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                    <div className="description banner-word">
+                        <p>a paradise for sense, vacation for souls</p>
                     </div>
                 </div>
-                {/* end carousel banner */}
-            </>
+                <div className="banner-item banner-item2">
+                    <div className="title banner-word">
+                        <p>Celebrate your Love</p>
+                    </div>
+                    <div className="description banner-word">
+                        <p>arrange the wedding to remember forever</p>
+                    </div>
+                </div>
+                <div className="banner-item banner-item3">
+                    <div className="title banner-word">
+                        <p>Feast for your Taste</p>
+                    </div>
+                    <div className="description banner-word">
+                        <p>enjoy our perfect homemade dishes and BBQ</p>
+                    </div>
+                </div>
+            </Slider>
+        </div>
+    );
+};
 
-        </>
-    )
-}
-
-export default Carousel
+export default Carousel;

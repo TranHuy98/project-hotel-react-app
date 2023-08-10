@@ -14,11 +14,10 @@ import {
     list,
 } from "firebase/firestore";
 import firebase from "firebase/compat/app";
+import styles from './AddData.module.css'; // Import CSS module
 import { v4 as uuidv4 } from 'uuid';
 
 const AddData = () => {
-
-    //get data from firebase
 
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -40,22 +39,45 @@ const AddData = () => {
     };
 
     const createRoom = async () => {
-        await addDoc(roomsCollectionRef, {
-            roomType: newRoomType,
-            roomPrice: newPrice,
-            bed: newBed,
-            maxPeople: newMaxPeople,
-            view: newView,
-            roomSize: newSize,
-            image: roomImg,
-        });
-        setHasChange(true);
-        let roomField = document.getElementsByClassName('room-field');
-        for (let field of roomField) {
-            field.value = '';
+        if (selectedImage) {
+            const storageRef = firebase.storage().ref("RoomImages");
+            const imageRef = storageRef.child(selectedImage.name);
+
+            try {
+                await imageRef.put(selectedImage);
+                console.log('Image uploaded successfully');
+
+                const url = await imageRef.getDownloadURL();
+                console.log('Download URL:', url);
+
+                await addDoc(roomsCollectionRef, {
+                    roomType: newRoomType,
+                    roomPrice: newPrice,
+                    bed: newBed,
+                    maxPeople: newMaxPeople,
+                    view: newView,
+                    roomSize: newSize,
+                    image: url, // Update 'image' field with the download URL
+                });
+
+                setHasChange(true);
+                setHasChange(true);
+                setSelectedImage(null);
+                setNewRoomType("");
+                setNewPrice(0);
+                setNewBed("");
+                setNewMaxPeople(0);
+                setNewView("");
+                setNewSize("");
+                setRoomImg("");
+
+                alert('Upload successfully');
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        } else {
+            alert('Please select an image');
         }
-        document.getElementById('roomImg').value = null;
-        
     };
 
     const updateRoom = async (id) => {
@@ -71,43 +93,25 @@ const AddData = () => {
         };
         await updateDoc(userDoc, newFields);
         setHasChange(true);
+
+        const roomFields = document.getElementsByClassName('room-field');
+        for (let field of roomFields) {
+            field.value = '';
+        }
     };
 
     const deleteRoom = async (id) => {
         const userDoc = doc(db, "Rooms", id);
         await deleteDoc(userDoc);
         setHasChange(true);
+
+        const roomFields = document.getElementsByClassName('room-field');
+        for (let field of roomFields) {
+            field.value = '';
+        }
     };
 
-    const handleUpload = () => {
-        if (selectedImage) {
-          const storageRef = firebase.storage().ref("RoomImages");
-          const imageRef = storageRef.child(selectedImage.name);
-          imageRef
-            .put(selectedImage)
-            .then(() => {
-              console.log('Image uploaded successfully');
-              // Retrieve the download URL
-              return imageRef.getDownloadURL();
-            })
-            .then((url) => {
-              console.log('Download URL:', url);
-              // Save the download URL to Firestore
-            //   saveImageUrlToFirestore(url);
-              setRoomImg(url);
-              console.log("URL for image", url); // observe the updated value directly
-              alert('upload sucessfully');
-            })
-            .catch((error) => {
-              console.error('Error uploading image:', error);
-            });
-        }
-        // alert('chua chon anh')
-      };
-
-      console.log(roomImg);
-
-    //render
+    // Render
     useEffect(() => {
         const getRooms = async () => {
             const data = await getDocs(roomsCollectionRef);
@@ -118,86 +122,30 @@ const AddData = () => {
         setHasChange(false);
     }, [hasChange]);
 
-    //render
-
     return (
-        <div>
-            <div>
-                <input id='roomImg' type="file" onChange={handleFileChange} />
-                <button onClick={handleUpload}>Upload</button>
-                <p id='upload-alert'></p>
+        <div className={styles.container}>
+            <div className={styles['upload-section']}>
+                <input id="roomImg" type="file" onChange={handleFileChange} />
             </div>
-            <input className='room-field'
-
-                placeholder="RoomType..."
-                onChange={(event) => {
-                    setNewRoomType(event.target.value);
-                }}
-            />
-            <input className='room-field'
-                type="text"
-                placeholder="price..."
-                onChange={(event) => {
-                    setNewPrice(event.target.value);
-                }}
-            />
-            <input className='room-field'
-                type="bed"
-                placeholder="bed..."
-                onChange={(event) => {
-                    setNewBed(event.target.value);
-                }}
-            />
-            <input className='room-field'
-                type="number"
-                placeholder="max people..."
-                onChange={(event) => {
-                    setNewMaxPeople(event.target.value);
-                }}
-            />
-            <input className='room-field'
-                type="text"
-                placeholder="view..."
-                onChange={(event) => {
-                    setNewView(event.target.value);
-                }}
-            />
-            <input className='room-field'
-                type="number"
-                placeholder="size..."
-                onChange={(event) => {
-                    setNewSize(event.target.value);
-                }}
-            />
-
-            <button onClick={createRoom}> Create Room</button>
+            <input className={styles['room-field']} placeholder="RoomType..." onChange={(event) => setNewRoomType(event.target.value)} />
+            <input className={styles['room-field']} type="text" placeholder="price..." onChange={(event) => setNewPrice(event.target.value)} />
+            <input className={styles['room-field']} type="bed" placeholder="bed..." onChange={(event) => setNewBed(event.target.value)} />
+            <input className={styles['room-field']} type="number" placeholder="max people..." onChange={(event) => setNewMaxPeople(event.target.value)} />
+            <input className={styles['room-field']} type="text" placeholder="view..." onChange={(event) => setNewView(event.target.value)} />
+            <input className={styles['room-field']} type="number" placeholder="size..." onChange={(event) => setNewSize(event.target.value)} />
+            <button className={styles.button} onClick={createRoom}>Create Room</button>
             {rooms.map((roomItem) => {
                 return (
-                    <div key={roomItem.id}>
-                        {" "}
-                        <img src={roomItem.image} width='200' height='100'></img>
+                    <div className={styles['room-item']} key={roomItem.id}>
+                        <img src={roomItem.image} width="200" height="100" alt="Room Image" />
                         <p>RoomType: {roomItem.roomType}</p>
-                        <p>price {roomItem.roomPrice}$</p>
-                        <p>bed: {roomItem.bed}</p>
-                        <p>maxGuest: {roomItem.maxPeople} people</p>
-                        <p>view: {roomItem.view}</p>
-                        <p>size: {roomItem.roomSize}m<sup>2</sup></p>
-                        <button
-                            onClick={() => {
-                                updateRoom(roomItem.id, roomItem.view);
-                            }}
-                        >
-                            {" "}
-                            Update View
-                        </button>
-                        <button
-                            onClick={() => {
-                                deleteRoom(roomItem.id);
-                            }}
-                        >
-                            {" "}
-                            Delete User
-                        </button>
+                        <p>Price: {roomItem.roomPrice}$</p>
+                        <p>Bed: {roomItem.bed}</p>
+                        <p>Max Guests: {roomItem.maxPeople} people</p>
+                        <p>View: {roomItem.view}</p>
+                        <p>Size: {roomItem.roomSize}m<sup>2</sup></p>
+                        <button className={styles.button} onClick={() => updateRoom(roomItem.id, roomItem.view)}>Update View</button>
+                        <button className={styles.button} onClick={() => deleteRoom(roomItem.id)}>Delete User</button>
                     </div>
                 );
             })}

@@ -7,22 +7,20 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Pagination } from 'antd';
 
 
+
 const RoomList = () => {
 
   const [roomList, setRoomList] = useState([]);
-
   const [pageCurrent, setPageCurrent] = useState(1);
 
   const fetchPost = async () => {
-
-    await getDocs(collection(db, "Rooms"))
-      .then((querySnapshot) => {
-        const roomData = querySnapshot.docs
-          .map((doc) => ({ ...doc.data(), id: doc.id }));
-        setRoomList(roomData);
-      })
-
-  }
+    const querySnapshot = await getDocs(collection(db, "Rooms"));
+    const roomData = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setRoomList(roomData);
+  };
 
   useEffect(() => {
     fetchPost();
@@ -50,6 +48,8 @@ const RoomList = () => {
 
   return (
     <>
+
+
       <>
         {/* page title */}
         <div className="page-title container-fluid">
@@ -86,33 +86,19 @@ const RoomList = () => {
                       size={room.roomSize}
                       key={room.id}
                     >
-
                     </Room>
                   )
                 })}
 
               </div>
-              {/* <div className="row">
-                <div className="col-12 pagination">
-                  <div className="page-block" onClick={() => setPageCurrent(1)}>1</div>
-                  <div className="page-block" onClick={() => setPageCurrent(2)}>2</div>
-                  <div className="page-block" onClick={() => setPageCurrent(3)}>3</div>
-                  <div className="page-block">
-                    <i className="fa fa-angle-right" />
-                  </div>
-                  <div className="page-block">
-                    <i className="fa fa-angle-double-right" />
-                  </div>
-                </div>
-              </div> */}
 
               <Pagination
                 showSizeChanger={false}
                 onShowSizeChange={onShowSizeChange}
-                defaultCurrent={3}
-                total={30}
-                pageSize={5}
-                showQuickJumper={true}
+                defaultCurrent={1}
+                total={roomList.length}
+                pageSize={4}
+                showQuickJumper={false}
                 current={pageCurrent}
                 onChange={onChangePage}
               />
@@ -121,6 +107,8 @@ const RoomList = () => {
         </div>
         {/* end room content */}
       </>
+
+
 
     </>
   )
