@@ -19,20 +19,20 @@ const Room = (room) => {
                         <p className="title">{type}</p>
                         <div className="slice" />
                         <p className="price">
-                            Starts from <span className="num">{price}$</span>{" "}
-                            <span>/night</span>
+                            Chỉ từ <span className="num">{price}$</span>{" "}
+                            <span>/đêm</span>
                         </p>
                         <p className="criteria">
                             <span>
                                 <i className="fa fa-angle-right" />
                             </span>{" "}
-                            Bed: {bed}
+                            Giường: {bed}
                         </p>
                         <p className="criteria">
                             <span>
                                 <i className="fa fa-angle-right"> </i>
                             </span>{" "}
-                            Max: {maxPeople} People
+                            Tối đa: {maxPeople} người
                         </p>
                         <p className="criteria">
                             <span>
@@ -44,10 +44,10 @@ const Room = (room) => {
                             <span>
                                 <i className="fa fa-angle-right" />
                             </span>{" "}
-                            Room size: {size}m<sup>2</sup>
+                            Diện tích: {size}m<sup>2</sup>
                         </p>
 
-                        <Link to={`roomDT/${roomID}`} className='room-item-link'>Check Now</Link>
+                        <Link to={`roomDT/${roomID}`} className='room-item-link'>Xem ngay</Link>
 
                     </div>
                 </div>

@@ -69,21 +69,13 @@ const Navigation = () => {
                                             Gallery
                                         </NavLink>
                                     </li>
-                                    <li>
-                                        <NavLink to='/booking' className='title'>
-                                            Booking
-                                        </NavLink>
-                                    </li>
+                                   
                                     <li>
                                         <NavLink to='/edit' className='title'>
                                             Edit Data
                                         </NavLink>
                                     </li>
-                                    <li>
-                                        <NavLink to='/editimage' className='title'>
-                                            Edit Image
-                                        </NavLink>
-                                    </li>
+                                    
                                 </div>
                                 {/* res header button */}
                                 <div className="headerBtn">

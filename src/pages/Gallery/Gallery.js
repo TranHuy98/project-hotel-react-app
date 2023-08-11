@@ -1,35 +1,44 @@
 import './Gallery.css';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import GalleryImageCard from './GalleryImageCard';
-import $ from 'jquery';
-
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../Firebase';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Pagination } from 'antd';
-import type { PaginationProps } from 'antd';
 
 
 const Gallery = () => {
 
-    ///api
-    const [listRoom, setListRoom] = useState([]);
+    const [roomList, setRoomList] = useState([]);
     const [pageCurrent, setPageCurrent] = useState(1);
 
+    const fetchPost = async () => {
+        const querySnapshot = await getDocs(collection(db, "Rooms"));
+        const roomData = querySnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        setRoomList(roomData);
+    };
 
     useEffect(() => {
-        fetch(
-            `https://64b1564e062767bc48260e8d.mockapi.io/api/v1/rooms?page=${pageCurrent}&limit=12`
-        )
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setListRoom(data);
-            });
+        fetchPost();
     }, [pageCurrent]);
 
-    const onChangePage: PaginationProps['onChange'] = (page) => {
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (!location.search) {
+            navigate('?page=1', { replace: true });
+        }
+    }, [location.search, navigate]);
+
+    const onChangePage = (page) => {
         console.log(page);
         setPageCurrent(page);
+        navigate(`?page=${page}`);
     };
 
     const onShowSizeChange = (current, pageSize) => {
@@ -68,34 +77,30 @@ const Gallery = () => {
                 <div className="row">
                     <div className="container">
                         <div className="row">
-
-
-                            {listRoom.map((room, index) => {
-                                return (
-                                    <GalleryImageCard
-                                        image={room.image}
-                                    ></GalleryImageCard>
-                                )
-                            })}
+                            {
+                                roomList.slice((pageCurrent - 1) * 6, pageCurrent * 6).map((room, index) => {
+                                    return (
+                                        <GalleryImageCard
+                                            image={room.image}
+                                        ></GalleryImageCard>
+                                    )
+                                })
+                            }
 
                         </div>
                         <Pagination
                             showSizeChanger={false}
                             onShowSizeChange={onShowSizeChange}
                             defaultCurrent={1}
-                            total={30}
-                            pageSize={5}
-                            showQuickJumper={true}
+                            total={roomList.length}
+                            pageSize={6}
+                            showQuickJumper={false}
                             current={pageCurrent}
                             onChange={onChangePage}
                         />
                     </div>
                 </div>
             </div>
-            {/* end gallery-grid */}
-
-
-
 
         </>
     )

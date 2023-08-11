@@ -300,7 +300,7 @@
 	padding-bottom: 50px;
 }
 .detail-room .right .title{
-	margin-top: 50px;
+	margin-top: 40px;
 	font-size: 26px;
 }
 .detail-room .right .room-category .item i{
@@ -426,6 +426,26 @@
 
 
 /*END RIGHT*/
+
+/* COMMENT */
+
+.comment-item{
+	border: 2px solid #D9B18D;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 0 0 10px;
+}
+.comment-item p{
+	margin: 0;
+}
+p.cm-user{
+	color: #0B4A9B;
+	font-weight: bold;
+	font-weight: 18px;
+}
+p.cm-user i{
+	margin: 0 10px 0 0;
+}
 
 /*END DETAIL ROOM
 

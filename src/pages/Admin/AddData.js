@@ -28,9 +28,9 @@ const AddData = () => {
     const [newView, setNewView] = useState("");
     const [newSize, setNewSize] = useState("");
     const [roomImg, setRoomImg] = useState("");
+    const [roomDes, setRoomDes] = useState('');
 
     const [hasChange, setHasChange] = useState(false);
-
     const [rooms, setRooms] = useState([]);
     const roomsCollectionRef = collection(db, "Rooms");
 
@@ -57,7 +57,9 @@ const AddData = () => {
                     maxPeople: newMaxPeople,
                     view: newView,
                     roomSize: newSize,
-                    image: url, // Update 'image' field with the download URL
+                    image: url,
+                    description: roomDes,
+                    comments: [],
                 });
 
                 setHasChange(true);
@@ -83,14 +85,39 @@ const AddData = () => {
     const updateRoom = async (id) => {
         const userDoc = doc(db, "Rooms", id);
         const newFields = {
-            roomType: newRoomType,
-            roomPrice: newPrice,
-            bed: newBed,
-            maxPeople: newMaxPeople,
-            view: newView,
-            roomSize: newSize,
-            image: roomImg,
         };
+        if (newRoomType !== '') {
+            newFields.roomType = newRoomType;
+            setNewRoomType("");
+        }
+        if (newPrice !== 0) {
+            newFields.roomPrice = newPrice;
+            setNewPrice("");
+        }
+        if (newBed !== '') {
+            newFields.bed = newBed;
+            setNewBed("");
+        }
+        if (newView !== '') {
+            newFields.view = newView;
+            setNewView("");
+        }
+        if (newMaxPeople !== 0) {
+            newFields.maxPeople = newMaxPeople;
+            setNewMaxPeople("");
+        }
+        if (newSize !== '') {
+            newFields.roomSize = newSize;
+            setNewSize("");
+        }
+        if (roomImg !== '') {
+            newFields.image = roomImg;
+            setRoomImg("");
+        }
+        if (roomDes !== '') {
+            newFields.description = roomDes;
+            setRoomDes("");
+        }
         await updateDoc(userDoc, newFields);
         setHasChange(true);
 
@@ -133,6 +160,7 @@ const AddData = () => {
             <input className={styles['room-field']} type="number" placeholder="max people..." onChange={(event) => setNewMaxPeople(event.target.value)} />
             <input className={styles['room-field']} type="text" placeholder="view..." onChange={(event) => setNewView(event.target.value)} />
             <input className={styles['room-field']} type="number" placeholder="size..." onChange={(event) => setNewSize(event.target.value)} />
+            <input className={styles['room-field']} type="text" placeholder="description..." onChange={(event) => setRoomDes(event.target.value)} />
             <button className={styles.button} onClick={createRoom}>Create Room</button>
             {rooms.map((roomItem) => {
                 return (
@@ -144,8 +172,8 @@ const AddData = () => {
                         <p>Max Guests: {roomItem.maxPeople} people</p>
                         <p>View: {roomItem.view}</p>
                         <p>Size: {roomItem.roomSize}m<sup>2</sup></p>
-                        <button className={styles.button} onClick={() => updateRoom(roomItem.id, roomItem.view)}>Update View</button>
-                        <button className={styles.button} onClick={() => deleteRoom(roomItem.id)}>Delete User</button>
+                        <button className={styles.button} onClick={() => updateRoom(roomItem.id)}>Update Room</button>
+                        <button className={styles.button} onClick={() => deleteRoom(roomItem.id)}>Delete Room</button>
                     </div>
                 );
             })}

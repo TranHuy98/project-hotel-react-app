@@ -78,76 +78,7 @@ const HomeUniqueContent = () => {
                     </div>
                 </div>
                 {/* end introduce rooms */}
-                {/* dining */}
-                <div className="container-fluid dining">
-                    <div className="container words">
-                        <p className="title">Exceptional dining</p>
-                        <div className="icon-title">
-                            <img src="img/icon-title.png" />
-                        </div>
-                        <p className="detail">
-                            On our scenic, quiet property, you will be treated to idyllic views of
-                            Beautiful Lake and its glistening water, our guardian mountains in the
-                            distance and luscious gardens.
-                        </p>
-                    </div>
-                    <div className="images container">
-                        <div className="row dining-slide">
-                            <div
-                                className="col-12 dining-item"
-                                style={{ backgroundImage: "url(img/dining1.jpg)" }}
-                            >
-                                <div className="info">
-                                    <p className="title">Special Feast Menu</p>
-                                    <p className="detail">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                        enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                className="col-12 dining-item"
-                                style={{ backgroundImage: "url(img/dining2.jpg)" }}
-                            >
-                                <div className="info">
-                                    <p className="title">Best Beef steak and Grilled vegetables</p>
-                                    <p className="detail">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                        enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                className="col-12 dining-item"
-                                style={{ backgroundImage: "url(img/dining3.png)" }}
-                            >
-                                <div className="info">
-                                    <p className="title">Sandwich, Tapas with Grilled chicken</p>
-                                    <p className="detail">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                        enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* end dining */}
+                
                 {/* stats */}
                 <div className="container-fluid stats">
                     <div className="container title">
@@ -199,7 +130,9 @@ const HomeUniqueContent = () => {
                 </div>
                 {/* end stats */}
                 {/* blogs */}
-                <div className="container-fluid blogs">
+                <div className="container-fluid blogs" style={
+                    {borderBottom: "2px solid #ECECEC"}
+                }>
                     <div className="container title">
                         <p>From Blogs</p>
                         <div className="icon-title">
@@ -332,11 +265,6 @@ const HomeUniqueContent = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="blog-btn">
-                            <a href="check-article.html">
-                                <input type="submit" name="" defaultValue="go to the blog" />
-                            </a>
                         </div>
                     </div>
                 </div>

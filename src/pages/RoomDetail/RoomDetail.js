@@ -2,51 +2,70 @@ import './RoomDetail.css';
 
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../Firebase';
 
 
 const RoomDetail = () => {
 
-    console.log("Start code!");
-
     const roomID = useParams();
-
-    console.log(roomID.roomID);
-
     const [roomList, setRoomList] = useState([]);
     const [roomDetail, setRoomDetail] = useState([]);
+    const [hasChange, setHasChange] = useState(false);
 
     const fetchPost = async () => {
-        const querySnapshot = await getDocs(collection(db, "Rooms"));
+        const querySnapshot = await getDocs(collection(db, 'Rooms'));
         const roomData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         setRoomList(roomData);
 
         const matchingRoom = roomData.find((room) => room.id === roomID.roomID);
         if (matchingRoom) {
-            console.log('displayRoom', matchingRoom);
             setRoomDetail(matchingRoom);
+            console.log("roomDetail:", roomDetail);
         }
     };
 
     useEffect(() => {
         fetchPost();
-    }, []);
 
-    console.log('roomlist', roomList);
-    console.log('roomdetail', roomDetail);
+        setHasChange(false);
+    }, [hasChange]);
 
-    // comments
-
+    const [cm, setCm] = useState('');
     const [user, setUser] = useState('');
-    const [comment, setComment] = useState('');
+    const [userEmail, setUserEmail] = useState('');
 
-    const handleSubmitComment = () => {
-        // Your comment submission logic
+    const createListComments = async () => {
+        try {
+            const collectionRef = doc(db, 'Rooms', roomID.roomID);
+            const docSnapshot = await getDoc(collectionRef);
+            const existingData = docSnapshot.data();
+
+            let arrayData = [];
+            if (existingData && existingData.arrayField) {
+                arrayData = existingData.arrayField;
+            }
+
+            arrayData.push({
+                comment: cm,
+                user: user,
+                userEmail: userEmail,
+            });
+
+            await setDoc(collectionRef, { arrayField: arrayData }, { merge: true });
+            console.log('Array field created successfully!');
+        } catch (error) {
+            console.error('Error creating array field: ', error);
+        }
+        setHasChange(true);
+        document.getElementById('comment-field').value = '';
+        document.getElementById('user-field').value = '';
+        document.getElementById('email-field').value = '';
     };
 
     return (
         <>
+
             <>
                 {/* page title */}
                 <div className="page-title container-fluid">
@@ -96,7 +115,7 @@ const RoomDetail = () => {
                                                 {roomDetail.roomType}</p>
 
                                             <p className="price">
-                                                Chỉ từ <span> {roomDetail.roomPrice}</span> đồng /đêm
+                                                Chỉ từ <span> {roomDetail.roomPrice}</span> $ /đêm
                                             </p>
                                         </div>
                                         <div className="criteria left-item">
@@ -135,7 +154,7 @@ const RoomDetail = () => {
                                                     </p>
                                                 </div>
                                                 <div className="col-12">
-                                                    <Link to={`/roomlist`}
+                                                    <Link to={`/booking/${roomID.roomID}`}
                                                         className='back-to-roomlist'>ĐẶT NGAY !</Link>
                                                 </div>
                                             </div>
@@ -147,8 +166,9 @@ const RoomDetail = () => {
                                                 Your email address will not be published. Required fields are
                                                 marked *
                                             </p>
-                                            <textarea placeholder="Comment" defaultValue={""} onChange={(e) => setComment(e.target.value)} />
+                                            <textarea id='comment-field' placeholder="Comment" defaultValue={""} onChange={(e) => setCm(e.target.value)} />
                                             <input
+                                                id='user-field'
                                                 type="name"
                                                 name=""
                                                 placeholder="Name *"
@@ -156,16 +176,22 @@ const RoomDetail = () => {
                                                 onChange={
                                                     (e) => {
                                                         setUser(e.target.value);
-                                                        console.log('USER', user)
                                                     }
 
                                                 }
                                             />
                                             <input
+                                                id='email-field'
                                                 type="email"
                                                 name=""
                                                 placeholder="Email *"
                                                 className="email"
+                                                onChange={
+                                                    (e) => {
+                                                        setUserEmail(e.target.value);
+                                                    }
+
+                                                }
                                             />
                                             <input
                                                 type="text"
@@ -173,7 +199,7 @@ const RoomDetail = () => {
                                                 placeholder="Website"
                                                 className="web"
                                             />
-                                            <button onClick={handleSubmitComment}>post comment</button>
+                                            <button onClick={createListComments}>post comment</button>
                                         </div>
                                     </div>
                                 </div>
@@ -237,30 +263,22 @@ const RoomDetail = () => {
                                         </div>
                                         <div className="slice" />
                                         <div className="tags right-item col-12">
-                                            <p className="title">Tags</p>
-                                            <p className="item">Asia</p>
-                                            <p className="item">Best deals</p>
-                                            <p className="item">Cheap Hotels</p>
-                                            <p className="item">Discount</p>
-                                            <p className="item">Honeymoon</p>
-                                            <p className="item">Island</p>
+                                            <p className="title">Review</p>
+                                            {/* comment */}
+                                            <div>
+                                                {roomDetail.arrayField && roomDetail.arrayField.length > 0 ? (
+                                                    roomDetail.arrayField.map((item, index) => (
+                                                        <div key={index} className='comment-item'>
+                                                            <p className='cm-user'><i className="fas fa-user"></i> {item.user}</p>
+                                                            <p><strong>Email:</strong> <em>{item.userEmail}</em></p>
+                                                            <p><strong>Review:</strong> {item.comment}</p>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p>No review yet</p>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div className="slice" />
-                                        <div className="slice" />
-                                        <div className="search right-item col-12">
-                                            <p className="title">Search</p>
-                                            <input
-                                                type="search"
-                                                name=""
-                                                placeholder="Enter keyword"
-                                                id="right-search"
-                                            />
-                                            <label htmlFor="right-search">
-                                                <i className="fa fa-search" />
-                                            </label>
-                                        </div>
-                                        <div className="slice" />
-
 
                                     </div>
                                 </div>

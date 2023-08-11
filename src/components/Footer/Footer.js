@@ -112,7 +112,7 @@ const Footer = () => {
                                         LAKEINN
                                     </a>{" "}
                                 </span>
-                                <i className="far fa-copyright" /> 2020. All right reserved.
+                                <i className="far fa-copyright" /> 2023. All right reserved.
                             </p>
                         </div>
                     </div>

@@ -12,6 +12,8 @@ import { BlogList } from './pages/BlogList/BlogList';
 import AddData from './pages/Admin/AddData';
 import Booking from './pages/Booking/Booking';
 
+import Comments from './pages/RoomDetail/Comments';
+
 
 function App() {
 
@@ -40,7 +42,7 @@ function App() {
             <Route path='/bloglist' element={<BlogList></BlogList>}>
             </Route>
 
-            <Route path='/booking' element={<Booking></Booking>}>
+            <Route path='/booking/:roomID' element={<Booking></Booking>}>
             </Route>
 
             <Route path='/edit' element={<AddData></AddData>}>
