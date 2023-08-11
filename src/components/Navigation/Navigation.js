@@ -70,11 +70,11 @@ const Navigation = () => {
                                         </NavLink>
                                     </li>
                                    
-                                    <li>
+                                    {/* <li>
                                         <NavLink to='/edit' className='title'>
                                             Edit Data
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     
                                 </div>
                                 {/* res header button */}

@@ -1027,7 +1027,7 @@ body {
 
 /*BLOGS*/
 .blogs {
-  background-image: var(--darkBG);
+  background-image: var(--lightBG);
   background-repeat: repeat;
   border-top: 1px solid transparent;
   padding-bottom: 50px;
@@ -1038,7 +1038,7 @@ body {
   line-height: 60px;
   width: 100%;
   text-align: center;
-  color: var(--lightText);
+  color: var(--darkText);
 }
 .blogs .icon-title {
   width: 100%;

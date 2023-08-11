@@ -8,6 +8,20 @@ import { db } from '../../Firebase';
 
 const RoomDetail = () => {
 
+    // blog
+    const [blogList, setBlogList] = useState([]);
+    const [pageCurrent, setPageCurrent] = useState(1);
+
+    const fetchBlog = async () => {
+        const querySnapshot = await getDocs(collection(db, "Blogs"));
+        const blogData = querySnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        setBlogList(blogData);
+    };
+    // blog
+
     const roomID = useParams();
     const [roomList, setRoomList] = useState([]);
     const [roomDetail, setRoomDetail] = useState([]);
@@ -21,12 +35,14 @@ const RoomDetail = () => {
         const matchingRoom = roomData.find((room) => room.id === roomID.roomID);
         if (matchingRoom) {
             setRoomDetail(matchingRoom);
-            console.log("roomDetail:", roomDetail);
+            document.title = 'LakeInn - ' + matchingRoom.roomType;
+
         }
     };
 
     useEffect(() => {
         fetchPost();
+        fetchBlog();
 
         setHasChange(false);
     }, [hasChange]);
@@ -62,6 +78,7 @@ const RoomDetail = () => {
         document.getElementById('user-field').value = '';
         document.getElementById('email-field').value = '';
     };
+
 
     return (
         <>
@@ -205,62 +222,38 @@ const RoomDetail = () => {
                                 </div>
                                 <div className="right col-xl-4 col-lg-4 col-md-12">
                                     <div className="row" style={{ width: "100%" }}>
-
                                         <div className="post right-item col-12 rating">
                                             <p className="title">Blogs</p>
-                                            <div className="item">
-                                                <div
-                                                    className="row"
-                                                    style={{ marginLeft: 0, marginRight: 0 }}
-                                                >
-                                                    <div
-                                                        className="col-4 image"
-                                                        style={{ backgroundImage: "url(img/dining1.jpg)" }}
-                                                    />
-                                                    <div className="col-8">
-                                                        <p className="article">
-                                                            <a href="#">Best Beef steak and Grilled vegetables</a>
-                                                        </p>
-                                                        <p className="rate">
-                                                            <span className="star-rate">
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                            </span>
-                                                            <span className="number-rate">5.0</span>
-                                                        </p>
+                                            {blogList.map((blog, index) => {
+                                                return (
+
+                                                    <div className="item">
+                                                        <div
+                                                            className="row"
+                                                            style={{ marginLeft: 0, marginRight: 0 }}
+                                                        >
+                                                            <div
+                                                                className="col-4 image"
+                                                                style={{
+                                                                    backgroundImage: `url(${String(blog.img)})`,
+                                                                    height: '65px'
+                                                                }}
+                                                            />
+                                                            <div className="col-8">
+                                                                <p className="article">
+                                                                    <Link>{blog.title}</Link>
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <div
-                                                    className="row"
-                                                    style={{ marginLeft: 0, marginRight: 0 }}
-                                                >
-                                                    <div
-                                                        className="col-4 image"
-                                                        style={{ backgroundImage: "url(img/dining2.jpg)" }}
-                                                    />
-                                                    <div className="col-8">
-                                                        <p className="article">
-                                                            <a href="#">Best Beef steak and Grilled vegetables</a>
-                                                        </p>
-                                                        <p className="rate">
-                                                            <span className="star-rate">
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                            </span>
-                                                            <span className="number-rate">4.8</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
+
+
+                                                )
+
+                                            })}
                                         </div>
+
                                         <div className="slice" />
                                         <div className="tags right-item col-12">
                                             <p className="title">Review</p>

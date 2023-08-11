@@ -46,6 +46,10 @@ const RoomList = () => {
     console.log(current, pageSize);
   };
 
+  useEffect(() => {
+    document.title = 'LakeInn - Our Rooms';
+  }, []);
+
   return (
     <>
 

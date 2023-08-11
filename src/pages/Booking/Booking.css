@@ -1,0 +1,24 @@
+.date-pickers{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 0px;
+}
+.picker{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.totalFee{
+    font-weight: bold;
+    font-size: 20px;
+}
+.end-price{
+    color: #D9B18D;
+    font-size: 25px;
+}
+.picker-criteria{
+    display: inline-block;
+    min-width: 150px;
+}

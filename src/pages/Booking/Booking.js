@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { collection, getDocs, updateDoc, doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../Firebase';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './Booking.css';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 const Booking = () => {
 
@@ -18,7 +23,7 @@ const Booking = () => {
     const matchingRoom = roomData.find((room) => room.id === roomID.roomID);
     if (matchingRoom) {
       setRoomDetail(matchingRoom);
-      console.log("roomDetail:", roomDetail);
+      document.title = 'LakeInn - ' + matchingRoom.roomType;
     }
   };
 
@@ -27,6 +32,22 @@ const Booking = () => {
 
     setHasChange(false);
   }, [hasChange]);
+
+  // date picker
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [totalFee, setTotalFee] = useState(0);
+  const [stayTime, setStayTime] = useState(0);
+
+  const calculateDateDifference = (event) => {
+    if (startDate && endDate) {
+      const diffInMilliseconds = Math.abs(endDate - startDate);
+      const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+      console.log('Difference in days:', diffInDays);
+      setTotalFee(diffInDays * event.target.value * roomDetail.roomPrice);
+    }
+  };
+  // date picker 
 
   return (
     <>
@@ -41,7 +62,7 @@ const Booking = () => {
             <span>
               <i className="fa fa-angle-right" />
             </span>
-            <span>Rooms</span>
+            <span>Booking</span>
             <span>
               <i className="fa fa-angle-right" />
             </span>
@@ -78,7 +99,7 @@ const Booking = () => {
                       {roomDetail.roomType}</p>
 
                     <p className="price">
-                      Chỉ từ <span> {roomDetail.roomPrice}</span> $ /đêm
+                      <span> {roomDetail.roomPrice}</span> $ /đêm
                     </p>
                   </div>
                   <div className="criteria left-item">
@@ -111,15 +132,63 @@ const Booking = () => {
                           <i className="far fa-check-square" />Đưa đón: Không
                         </p>
                       </div>
-                      <div className="col-12">
-                        <p className="description">
-                          {roomDetail.description}
-                        </p>
+                      <div className='col-12'>
+                        <div className='date-pickers'>
+                          <div>
+
+                            <span className='picker-criteria'>Tên khách hàng:</span>
+                            <input type='text' placeholder='Nhập tên' className='picker' ></input>
+                          </div>
+                          <div>
+
+                            <span className='picker-criteria'>Email:</span>
+                            <input type='email' placeholder='Nhập email' className='picker' ></input>
+                          </div>
+                          <div>
+
+                            <span className='picker-criteria'>Ngày nhận phòng:</span>
+                            <DatePicker
+                              selected={startDate}
+                              onChange={(date) => setStartDate(date)}
+                              placeholderText="Chọn ngày"
+                              className='start-picker picker'
+                            />
+                          </div>
+                          <div>
+
+                            <span className='picker-criteria'>Ngày trả phòng</span>
+                            <DatePicker
+                              selected={endDate}
+                              onChange={(date) => setEndDate(date)}
+                              placeholderText="Chọn ngày"
+                              className='end-picker picker'
+                            />
+                          </div>
+
+                          <div>
+
+                            <span className='picker-criteria'>Số phòng:</span>
+                            <input type='number' placeholder='Số phòng' className='picker' onChange={calculateDateDifference}></input>
+                          </div>
+
+                          <p className='totalFee'>Tổng: <span className='end-price'>{totalFee}</span> $</p>
+
+                        </div>
+                      </div>
+                      <div className='col-12'>
+
                       </div>
                       <div className="col-12">
-                        <Link to={`/booking/${roomID.roomID}`}
-                          className='back-to-roomlist'>ĐẶT NGAY !</Link>
+                        
+
+                        <Popup trigger={<Link
+                          className='back-to-roomlist'>ĐẶT NGAY !</Link>} position="right center">
+                          <div className='pop-up'>Thành công! Chúng tôi sẽ sớm liên hệ lại với bạn.</div>
+                        </Popup>
                       </div>
+
+
+
                     </div>
                   </div>
 
@@ -127,63 +196,6 @@ const Booking = () => {
               </div>
               <div className="right col-xl-4 col-lg-4 col-md-12">
                 <div className="row" style={{ width: "100%" }}>
-
-                  <div className="post right-item col-12 rating">
-                    <p className="title">Blogs</p>
-                    <div className="item">
-                      <div
-                        className="row"
-                        style={{ marginLeft: 0, marginRight: 0 }}
-                      >
-                        <div
-                          className="col-4 image"
-                          style={{ backgroundImage: "url(img/dining1.jpg)" }}
-                        />
-                        <div className="col-8">
-                          <p className="article">
-                            <a href="#">Best Beef steak and Grilled vegetables</a>
-                          </p>
-                          <p className="rate">
-                            <span className="star-rate">
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                            </span>
-                            <span className="number-rate">5.0</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div
-                        className="row"
-                        style={{ marginLeft: 0, marginRight: 0 }}
-                      >
-                        <div
-                          className="col-4 image"
-                          style={{ backgroundImage: "url(img/dining2.jpg)" }}
-                        />
-                        <div className="col-8">
-                          <p className="article">
-                            <a href="#">Best Beef steak and Grilled vegetables</a>
-                          </p>
-                          <p className="rate">
-                            <span className="star-rate">
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                              <i className="fa fa-star" />
-                            </span>
-                            <span className="number-rate">4.8</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="slice" />
                   <div className="tags right-item col-12">
                     <p className="title">Review</p>
                     {/* comment */}

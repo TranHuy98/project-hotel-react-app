@@ -13,9 +13,14 @@ import AddData from './pages/Admin/AddData';
 import Booking from './pages/Booking/Booking';
 
 import Comments from './pages/RoomDetail/Comments';
+import { useEffect } from 'react';
 
 
 function App() {
+
+  useEffect(() => {
+    document.title = 'Homepage - LakeInn';
+  }, []);
 
   return (
 
