@@ -47,7 +47,7 @@ const Room = (room) => {
                             Room size: {size}m<sup>2</sup>
                         </p>
 
-                        <Link to={`roomDT/${roomID}`} className='room-item-link'>Check Detail</Link>
+                        <Link to={`roomDT/${roomID}`} className='room-item-link'>Check Now</Link>
 
                     </div>
                 </div>

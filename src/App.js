@@ -12,6 +12,7 @@ import { BlogList } from './pages/BlogList/BlogList';
 import AddData from './pages/Admin/AddData';
 import Booking from './pages/Booking/Booking';
 
+
 function App() {
 
   return (

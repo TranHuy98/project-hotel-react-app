@@ -95,41 +95,38 @@ const RoomDetail = () => {
                                             <p className="room-type">
                                                 {roomDetail.roomType}</p>
 
-                                            {/* <p>room image: {roomDetail.image}</p> */}
-
-
                                             <p className="price">
-                                                Start from <span>${roomDetail.roomPrice}</span> /night
+                                                Chỉ từ <span> {roomDetail.roomPrice}</span> đồng /đêm
                                             </p>
                                         </div>
                                         <div className="criteria left-item">
                                             <div className="row">
                                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Room Type: {roomDetail.bed}
+                                                        <i className="far fa-check-square" />Giường: {roomDetail.bed}
                                                     </p>
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Max Guests: {roomDetail.maxPeople}
+                                                        <i className="far fa-check-square" />Số người tối đa: {roomDetail.maxPeople}
                                                     </p>
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Room Size: {roomDetail.roomSize} m<sup>2</sup>
+                                                        <i className="far fa-check-square" />Diện tích phòng: {roomDetail.roomSize} m<sup>2</sup>
                                                     </p>
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Room Faces: {roomDetail.view}
+                                                        <i className="far fa-check-square" />View: {roomDetail.view}
                                                     </p>
                                                 </div>
                                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Wifi: Yes
+                                                        <i className="far fa-check-square" />Wifi: Có
                                                     </p>
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Breakfast: Yes
+                                                        <i className="far fa-check-square" />Bữa sáng: Có
                                                     </p>
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Room Service: Yes
+                                                        <i className="far fa-check-square" />Dịch vụ: Có
                                                     </p>
                                                     <p className="item">
-                                                        <i className="far fa-check-square" /> Airport pickup: No
+                                                        <i className="far fa-check-square" />Đưa đón: Không
                                                     </p>
                                                 </div>
                                                 <div className="col-12">
@@ -139,21 +136,10 @@ const RoomDetail = () => {
                                                 </div>
                                                 <div className="col-12">
                                                     <Link to={`/roomlist`}
-                                                        className='back-to-roomlist'>ALL ROOMS</Link>
+                                                        className='back-to-roomlist'>ĐẶT NGAY !</Link>
                                                 </div>
                                             </div>
                                         </div>
-
-
-                                        {roomDetail?.comments?.map((comment, index) => {
-                                            return (
-                                                <>
-                                                    <h2>{comment.comments}</h2>
-                                                </>
-                                            );
-                                        })}
-                                        <h1>COMMENTs HERE</h1>
-
 
                                         <div className="comment left-item">
                                             <p className="title">Add Comments</p>
@@ -193,107 +179,9 @@ const RoomDetail = () => {
                                 </div>
                                 <div className="right col-xl-4 col-lg-4 col-md-12">
                                     <div className="row" style={{ width: "100%" }}>
-                                        <div className="room-category right-item col-12">
-                                            <p className="title">Categories</p>
-                                            <p className="item">
-                                                <i className="fa fa-angle-right" />
-                                                <a href="#"> Blog</a>
-                                            </p>
-                                            <p className="item">
-                                                <i className="fa fa-angle-right" />
-                                                <a href="#"> Room</a>
-                                            </p>
-                                            <p className="item">
-                                                <i className="fa fa-angle-right" />
-                                                <a href="#"> Gallery</a>
-                                            </p>
-                                            <p className="item">
-                                                <i className="fa fa-angle-right" />
-                                                <a href="#"> Shop</a>
-                                            </p>
-
-                                        </div>
-                                        <div className="slice" />
-                                        <div className="post right-item col-12">
-                                            <p className="title">Recent Posts</p>
-                                            <div className="item">
-                                                <div
-                                                    className="row"
-                                                    style={{ marginLeft: 0, marginRight: 0 }}
-                                                >
-                                                    <div
-                                                        className="col-4 image"
-                                                        style={{ backgroundImage: "url(img/dining1.jpg)" }}
-                                                    />
-                                                    <div className="col-8">
-                                                        <p className="article">
-                                                            <a href="#">Best Beef steak and Grilled vegetables</a>
-                                                        </p>
-                                                        <p className="time">
-                                                            <span className="date">Feb 26,2016</span>
-                                                            <span className="mes">
-                                                                <i className="fas fa-comment" /> 0
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <div
-                                                    className="row"
-                                                    style={{ marginLeft: 0, marginRight: 0 }}
-                                                >
-                                                    <div
-                                                        className="col-4 image"
-                                                        style={{ backgroundImage: "url(img/dining2.jpg)" }}
-                                                    />
-                                                    <div className="col-8">
-                                                        <p className="article">
-                                                            <a href="#">Best Beef steak and Grilled vegetables</a>
-                                                        </p>
-                                                        <p className="time">
-                                                            <span className="date">Feb 26,2016</span>
-                                                            <span className="mes">
-                                                                <i className="fas fa-comment" /> 0
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="slice" />
-                                        <div className="calendar right-item col-12">
-                                            <p className="title">Calendar</p>
-                                            <div id="calendar-init" />
-                                        </div>
-                                        <div className="slice" />
-                                        <div className="tags right-item col-12">
-                                            <p className="title">Tags</p>
-                                            <p className="item">Asia</p>
-                                            <p className="item">Best deals</p>
-                                            <p className="item">Cheap Hotels</p>
-                                            <p className="item">Discount</p>
-                                            <p className="item">Honeymoon</p>
-                                            <p className="item">Island</p>
-                                        </div>
-                                        <div className="slice" />
-                                        <div className="slice" />
-                                        <div className="search right-item col-12">
-                                            <p className="title">Search</p>
-                                            <input
-                                                type="search"
-                                                name=""
-                                                placeholder="Enter keyword"
-                                                id="right-search"
-                                            />
-                                            <label htmlFor="right-search">
-                                                <i className="fa fa-search" />
-                                            </label>
-                                        </div>
-                                        <div className="slice" />
 
                                         <div className="post right-item col-12 rating">
-                                            <p className="title">Rating</p>
+                                            <p className="title">Blogs</p>
                                             <div className="item">
                                                 <div
                                                     className="row"
@@ -347,6 +235,33 @@ const RoomDetail = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="slice" />
+                                        <div className="tags right-item col-12">
+                                            <p className="title">Tags</p>
+                                            <p className="item">Asia</p>
+                                            <p className="item">Best deals</p>
+                                            <p className="item">Cheap Hotels</p>
+                                            <p className="item">Discount</p>
+                                            <p className="item">Honeymoon</p>
+                                            <p className="item">Island</p>
+                                        </div>
+                                        <div className="slice" />
+                                        <div className="slice" />
+                                        <div className="search right-item col-12">
+                                            <p className="title">Search</p>
+                                            <input
+                                                type="search"
+                                                name=""
+                                                placeholder="Enter keyword"
+                                                id="right-search"
+                                            />
+                                            <label htmlFor="right-search">
+                                                <i className="fa fa-search" />
+                                            </label>
+                                        </div>
+                                        <div className="slice" />
+
+
                                     </div>
                                 </div>
                             </div>
