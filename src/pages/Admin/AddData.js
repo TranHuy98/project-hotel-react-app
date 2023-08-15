@@ -41,7 +41,7 @@ const AddData = () => {
     const createRoom = async () => {
         if (selectedImage) {
             const storageRef = firebase.storage().ref("RoomImages");
-            const imageRef = storageRef.child(selectedImage.name);
+            const imageRef = storageRef.child(uuidv4()+selectedImage.name);
 
             try {
                 await imageRef.put(selectedImage);
@@ -62,7 +62,6 @@ const AddData = () => {
                     comments: [],
                 });
 
-                setHasChange(true);
                 setHasChange(true);
                 setSelectedImage(null);
                 setNewRoomType("");
